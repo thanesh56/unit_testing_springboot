@@ -4,21 +4,28 @@ import com.gl.unittesting.unittesting.service.SomeDataService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-
+//@RunWith(SpringJUnit4ClassRunner.class)//for junit4
+@ExtendWith(SpringExtension.class)
 public class SomeBusinessMockTest {
 
-	SomeBusinessImpl sumBusinessImpl = 	new SomeBusinessImpl();
-	SomeDataService dataServiceMock = mock(SomeDataService.class);	//mocking the dataService interface
+	@InjectMocks
+	SomeBusinessImpl sumBusinessImpl;
 
-	@BeforeEach
+	@Mock	//this @Mock annotation automatically call the setter method of that Object variable
+	SomeDataService dataServiceMock;	//mocking the dataService interface
+
+	/*@BeforeEach		//it is automatically called by @Mock annotation
 	void beforeEach(){
 		sumBusinessImpl.setSomeDataService(dataServiceMock);
-	}
+	}*/
 
 
 	@Test
