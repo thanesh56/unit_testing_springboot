@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = HelloWorldController.class)
 @ExtendWith(SpringExtension.class)
@@ -27,10 +29,13 @@ class HelloWorldControllerTest {
                 .get("/helloworld").accept(MediaType.APPLICATION_JSON);
 
         //MvcResult takes the result
-        MvcResult result = mockMvc.perform(request).andReturn();
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string("Hello World")) //it also take json etc
+                .andReturn();
 
         //verify the result
-        assertEquals("Hello World",result.getResponse().getContentAsString());
+        //assertEquals("Hello World",result.getResponse().getContentAsString());
 
     }
 }
