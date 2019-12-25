@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 public class ItemController {
@@ -26,6 +28,12 @@ public class ItemController {
     public Item itemFromBusinessService(){
         log.info("itemFromBusinessService method of ItemController called");
         return itemBusinessService.retrieveItem();
+    }
+
+    @GetMapping(value = "/all-items-from-database")
+    public List<Item> allItemFromDatabase(){
+        log.info("allItemFromDatabase method of ItemController called");
+        return itemBusinessService.retrieveAllItem();
     }
 
 

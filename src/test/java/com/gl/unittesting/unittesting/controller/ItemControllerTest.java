@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -60,5 +62,24 @@ class ItemControllerTest {
 
         //verify the result
         //assertEquals();
+    }
+
+    @Test
+    void allItemFromDatabase_basic() throws Exception {
+        when(itemBusinessService.retrieveAllItem()).thenReturn(
+                Arrays.asList( new Item(2,"Pull Ball",500,11),
+                               new Item(3,"Push Ball",500,11)
+                )
+        );
+
+        //call Get "/all-items-from-database" application/json
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/all-items-from-database")
+                .accept(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{id: 2,name:\"Pull Ball\",price:500,quantity:11},{id: 3,name:\"Push Ball\",price:500,quantity:11}]"))
+                .andReturn();
+
     }
 }
