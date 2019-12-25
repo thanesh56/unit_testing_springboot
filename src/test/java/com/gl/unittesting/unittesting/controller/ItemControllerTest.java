@@ -1,9 +1,12 @@
 package com.gl.unittesting.unittesting.controller;
 
+import com.gl.unittesting.unittesting.model.Item;
+import com.gl.unittesting.unittesting.service.ItemBusinessService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockReset;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -13,6 +16,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,6 +27,8 @@ class ItemControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private ItemBusinessService itemBusinessService;
 
     @Test
     void dummyItem() throws Exception {
@@ -33,6 +39,23 @@ class ItemControllerTest {
         MvcResult result = mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\": 1,\"name\":\"Push Ball\",\"price\":300,\"quantity\":3}"))
+                .andReturn();
+
+        //verify the result
+        //assertEquals();
+    }
+
+    @Test
+    void itemFromBusinessService() throws Exception {
+        when(itemBusinessService.retrieveItem()).thenReturn(new Item(2,"Pull Ball",500,11));
+
+        //call Get "/item-from-business-service" application/json
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/item-from-business-service")
+                .accept(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().json("{id: 2,name:\"Pull Ball\",price:500,quantity:11}"))
                 .andReturn();
 
         //verify the result
