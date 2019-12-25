@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations = {"classpath:data.sql"})
 class ItemControllerIT {
 
     @Autowired
@@ -20,6 +22,7 @@ class ItemControllerIT {
 
     @Test
     public void contextLoads() throws JSONException {
+
         String response = this.restTemplate.getForObject("/all-items-from-database",String.class);
         JSONAssert.assertEquals("[{id:1},{id:2},{id:3}]",response,false);
     }
