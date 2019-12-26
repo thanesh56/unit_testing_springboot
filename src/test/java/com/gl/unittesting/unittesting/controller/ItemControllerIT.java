@@ -1,41 +1,29 @@
 package com.gl.unittesting.unittesting.controller;
 
 import org.json.JSONException;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
 
-//import static org.junit.jupiter.api.Assertions.*;
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+public class ItemControllerIT {
+	
+	@Autowired
+	private TestRestTemplate restTemplate;
+		
+	@Test
+	public void contextLoads() throws JSONException {	
+		
+		String response = this.restTemplate.getForObject("/all-items-from-database", String.class);
+		
+		JSONAssert.assertEquals("[{id:10001},{id:10002},{id:10003}]", 
+				response, false);
+	}
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = {"classpath:data.sql"})
-class ItemControllerIT {
-
-    @Autowired
-    RestTemplate restTemplate;
-
-    @Test
-    public void contextLoads() throws JSONException {
-
-        String response = this.restTemplate.getForObject("/all-items-from-database",String.class);
-        JSONAssert.assertEquals("[{id:1},{id:2},{id:3}]",response,false);
-    }
-
-    /*@Test
-    void dummyItem() {
-    }
-
-    @Test
-    void itemFromBusinessService() {
-    }
-
-    @Test
-    void allItemFromDatabase() {
-    }*/
 }

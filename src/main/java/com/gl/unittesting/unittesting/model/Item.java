@@ -6,75 +6,52 @@ import javax.persistence.Transient;
 
 @Entity
 public class Item {
-    @Id
-    private int id;
-    private String name;
-    private int price;
-    private int quantity;
 
+	@Id
+	private int id;
+	private String name;
+	private int price;
+	private int quantity;
 
+	@Transient
+	private int value;
 
-    @Transient
-    private int value;
+	protected Item() {
+		
+	}
+	
+	public Item(int id, String name, int price, int quantity) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.quantity = quantity;
+	}
 
+	public int getId() {
+		return id;
+	}
 
-    public Item() {
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Item(int id, String name, int price, int quantity) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-    }
+	public int getPrice() {
+		return price;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getQuantity() {
+		return quantity;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getValue() {
+		return value;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setValue(int value) {
+		this.value = value;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                '}';
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
+	public String toString() {
+		return String.format("Item[%d, %s, %d, %d]", id, name, price, quantity);
+	}
 }

@@ -1,54 +1,36 @@
 package com.gl.unittesting.unittesting.business;
 
-import com.gl.unittesting.unittesting.model.Item;
-import com.gl.unittesting.unittesting.repository.ItemRepository;
-import com.gl.unittesting.unittesting.service.ItemBusinessService;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import com.gl.unittesting.unittesting.model.Item;
+import com.gl.unittesting.unittesting.repository.ItemRepository;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-//@RunWith(SpringJUnit4ClassRunner.class)//for junit4
-//@ExtendWith(SpringExtension.class)
-@ExtendWith(MockitoExtension.class)
+
+@RunWith(MockitoJUnitRunner.class)
 public class ItemBusinessServiceTest {
 
-	@InjectMocks ItemBusinessService itemBusinessService;
+	@InjectMocks
+	private ItemBusinessService business;
 
-	//this @Mock annotation automatically call the setter method of that Object variable
 	@Mock
-	ItemRepository itemRepository;	//mocking the dataService interface
-
+	private ItemRepository repository;
 
 	@Test
-	@DisplayName("Testing calculateSumUsingSomeDataService_basic() method")
-	public void retrieveAllItem_basic() {
-
-		when(itemRepository.findAll()).thenReturn(
-				Arrays.asList(
-					new Item(2,"Pull Ball",500,11),
-					new Item(3,"Push Ball",5000,11)
-				)
-		);		//here when retrieveAll() is called then only setting value for returning
-
-
-		List<Item> items = itemBusinessService.retrieveAllItem();
-		assertEquals(5500,items.get(0).getValue(),()->"Somthing went wrong");
-		assertEquals(55000,items.get(1).getValue(),()->"Somthing went wrong");
+	public void retrieveAllItems_basic() {
+		when(repository.findAll()).thenReturn(Arrays.asList(new Item(2,"Item2",10,10),
+				new Item(3,"Item3",20,20)));
+		List<Item> items = business.retrieveAllItems();
+		
+		assertEquals(100, items.get(0).getValue());
+		assertEquals(400, items.get(1).getValue());
 	}
-
-
-
 }

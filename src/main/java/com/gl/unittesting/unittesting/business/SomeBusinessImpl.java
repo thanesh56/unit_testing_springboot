@@ -2,37 +2,36 @@ package com.gl.unittesting.unittesting.business;
 
 import com.gl.unittesting.unittesting.service.SomeDataService;
 
-import java.util.Arrays;
-import java.util.OptionalInt;
 
 public class SomeBusinessImpl {
+	
+	private SomeDataService someDataService;
+	
 	public void setSomeDataService(SomeDataService someDataService) {
 		this.someDataService = someDataService;
 	}
 
-	private SomeDataService someDataService;
-
-
-	public int calculateSum(int[] datas) {
-
-		return Arrays.stream(datas).reduce(Integer::sum).orElse(0);
-
-		/*int sum = 0;
-		for(int data:datas) {
-			sum+=data;
+	public int calculateSum(int[] data) {
+		int sum = 0;
+		for(int value:data) {
+			sum += value;
 		}
-		return sum;*/
+		return sum;
+		//Functional Style
+		//return Arrays.stream(data).reduce(Integer::sum).orElse(0);
 	}
-
-	public int calculateSumUsingSomeDataService() {
-		int[] datas = someDataService.retrieveAllData();
-		return Arrays.stream(datas).reduce(Integer::sum).orElse(0);
-		/*int sum = 0;
-		for(int data:datas) {
-			sum+=data;
+	
+	public int calculateSumUsingDataService() {
+		int sum = 0;
+		int[] data = someDataService.retrieveAllData();
+		for(int value:data) {
+			sum += value;
 		}
-
-		return sum;*/
+		
+		//someDataService.storeSum(sum);
+		return sum;
+		//Functional Style
+		//return Arrays.stream(data).reduce(Integer::sum).orElse(0);
 	}
 
 }
