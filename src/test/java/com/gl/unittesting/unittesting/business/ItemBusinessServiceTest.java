@@ -6,9 +6,13 @@ import com.gl.unittesting.unittesting.service.ItemBusinessService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 //@RunWith(SpringJUnit4ClassRunner.class)//for junit4
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class ItemBusinessServiceTest {
 
 	@InjectMocks ItemBusinessService itemBusinessService;
